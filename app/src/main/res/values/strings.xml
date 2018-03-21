@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Tic-Tac-Toe</string>
+    <string name="select">Select Mode</string>
+    <string name="OneonOne">1 vs. 1</string>
+    <string name="kistarts">AI starts</string>
+    <string name="vski">You vs. AI</string>
+    <string name="red">Red wins!</string>
+    <string name="yellow">Yellow wins!</string>
+    <string name="nobody">No winner!</string>
+    <string name="describe">skin</string>
+    <string name="board">board</string>
+</resources>

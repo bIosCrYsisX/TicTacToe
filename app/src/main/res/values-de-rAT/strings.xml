@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Tic-Tac-Toe</string>
+    <string name="select">Wähle einen Modus</string>
+    <string name="OneonOne">Einer gegen einen</string>
+    <string name="kistarts">KI startet</string>
+    <string name="vski">Gegen die KI</string>
+    <string name="describe">skin</string>
+    <string name="board">board</string>
+    <string name="red">Rot gewinnt!</string>
+    <string name="yellow">Gelb gewinnt!</string>
+    <string name="nobody">Kein Gewinner!</string>
+</resources>
