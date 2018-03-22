@@ -1,8 +1,11 @@
 package tk.dalpiazsolutions.tictactoe;
 
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.constraint.ConstraintLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
@@ -29,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
     boolean gameOver = false;
     int mode = -1;
     int idView;
+    String background;
+    String colorOne;
+    String colorTwo;
 
     Handler handler = new Handler();
     Runnable runnable = new Runnable() {
@@ -67,11 +73,51 @@ public class MainActivity extends AppCompatActivity {
                     tag = Integer.parseInt(counter.getTag().toString());
                     if (playerOnTurn == 0) {
                         gamestates[tag] = playerOnTurn;
-                        counter.setImageResource(R.drawable.red_skin);
+
+                        if(colorOne.equals(getString(R.string.skinRed)))
+                        {
+                            counter.setImageResource(R.drawable.red_skin);
+                        }
+
+                        else if(colorOne.equals(getString(R.string.skinYellow)))
+                        {
+                            counter.setImageResource(R.drawable.yellow_skin);
+                        }
+
+                        else if(colorOne.equals(getString(R.string.skinBlack)))
+                        {
+                            counter.setImageResource(R.drawable.black_skin);
+                        }
+
+                        else if(colorOne.equals(getString(R.string.skinPurple)))
+                        {
+                            counter.setImageResource(R.drawable.purple_skin);
+                        }
+
                         playerOnTurn = 1;
                     } else if (playerOnTurn == 1) {
                         gamestates[tag] = playerOnTurn;
-                        counter.setImageResource(R.drawable.yellow_skin);
+
+                        if(colorTwo.equals(getString(R.string.skinRed)))
+                        {
+                            counter.setImageResource(R.drawable.red_skin);
+                        }
+
+                        else if(colorTwo.equals(getString(R.string.skinYellow)))
+                        {
+                            counter.setImageResource(R.drawable.yellow_skin);
+                        }
+
+                        else if(colorTwo.equals(getString(R.string.skinBlack)))
+                        {
+                            counter.setImageResource(R.drawable.black_skin);
+                        }
+
+                        else if(colorTwo.equals(getString(R.string.skinPurple)))
+                        {
+                            counter.setImageResource(R.drawable.purple_skin);
+                        }
+
                         playerOnTurn = 0;
                     }
 
@@ -104,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
         playerOnTurn = 0;
         setContentView(R.layout.activity_main);
 
+        changeBackground();
         if (mode == 2)
         {
             setCounterObject();
@@ -118,7 +165,27 @@ public class MainActivity extends AppCompatActivity {
             ids.add(counter.getId());
             tag = Integer.parseInt(counter.getTag().toString());
             gamestates[tag] = playerOnTurn;
-            counter.setImageResource(R.drawable.red_skin);
+
+            if(colorOne.equals(getString(R.string.skinRed)))
+            {
+                counter.setImageResource(R.drawable.red_skin);
+            }
+
+            else if(colorOne.equals(getString(R.string.skinYellow)))
+            {
+                counter.setImageResource(R.drawable.yellow_skin);
+            }
+
+            else if(colorOne.equals(getString(R.string.skinBlack)))
+            {
+                counter.setImageResource(R.drawable.black_skin);
+            }
+
+            else if(colorOne.equals(getString(R.string.skinPurple)))
+            {
+                counter.setImageResource(R.drawable.purple_skin);
+            }
+
             counter.setTranslationY(-1000f);
             counter.animate().translationYBy(1000F).rotation(1800).setDuration(300);
 
@@ -139,7 +206,25 @@ public class MainActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            enemyView.setImageResource(R.drawable.yellow_skin);
+                            if(colorTwo.equals(getString(R.string.skinRed)))
+                            {
+                                enemyView.setImageResource(R.drawable.red_skin);
+                            }
+
+                            else if(colorTwo.equals(getString(R.string.skinYellow)))
+                            {
+                                enemyView.setImageResource(R.drawable.yellow_skin);
+                            }
+
+                            else if(colorTwo.equals(getString(R.string.skinBlack)))
+                            {
+                                enemyView.setImageResource(R.drawable.black_skin);
+                            }
+
+                            else if(colorTwo.equals(getString(R.string.skinPurple)))
+                            {
+                                enemyView.setImageResource(R.drawable.purple_skin);
+                            }
                             enemyView.setTranslationY(-1000f);
                             enemyView
                                     .animate()
@@ -185,9 +270,9 @@ public class MainActivity extends AppCompatActivity {
                     gamestates[winningPositions[1]] == gamestates[winningPositions[2]] &&
                     gamestates[winningPositions[0]] != 2) {
                 if (gamestates[winningPositions[0]] == 0) {
-                    Toast.makeText(getApplicationContext(), getString(R.string.red), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), colorOne + getString(R.string.wins) , Toast.LENGTH_LONG).show();
                 } else if (gamestates[winningPositions[0]] == 1) {
-                    Toast.makeText(getApplicationContext(), getString(R.string.yellow), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), colorTwo + getString(R.string.wins), Toast.LENGTH_LONG).show();
                 }
                 gameOver = true;
                 handler.postDelayed(runnable, 2000);
@@ -205,12 +290,30 @@ public class MainActivity extends AppCompatActivity {
         x = 0;
     }
 
+    public void changeBackground()
+    {
+        ConstraintLayout constraintLayout = findViewById(R.id.game_layout);
+        background = preferences.getString("background", getString(R.string.orange));
+        colorOne = preferences.getString("colorOne", getString(R.string.skinRed));
+        colorTwo = preferences.getString("colorTwo", getString(R.string.skinYellow));
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            if (background.equals(getString(R.string.orange))) {
+                constraintLayout.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.background));
+            } else if (background.equals(getString(R.string.green))) {
+                constraintLayout.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.background_green));
+            } else if (background.equals(getString(R.string.blue))) {
+                constraintLayout.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.background_blue));
+            }
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         preferences = getSharedPreferences("modeFile", MODE_PRIVATE);
+        changeBackground();
 
         mode = preferences.getInt("mode", 0);
 

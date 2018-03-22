@@ -7,6 +7,18 @@
     <string name="red">Red wins!</string>
     <string name="yellow">Yellow wins!</string>
     <string name="nobody">No winner!</string>
+    <string name="wins"> &#160;wins!</string>
     <string name="describe">skin</string>
     <string name="board">board</string>
+    <string name="orange">Orange</string>
+    <string name="blue">Blue</string>
+    <string name="green">Green</string>
+    <string name="backgroundColor">Background (color)</string>
+    <string name="player1">Player 1 (color)</string>
+    <string name="player2">Player 2 (color)</string>
+    <string name="skinRed">Red</string>
+    <string name="skinYellow">Yellow</string>
+    <string name="skinPurple">Purple</string>
+    <string name="skinBlack">Black</string>
+    <string name="differentColors">Please select different colors for the players!</string>
 </resources>
