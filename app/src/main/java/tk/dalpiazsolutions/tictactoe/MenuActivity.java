@@ -23,12 +23,14 @@ public class MenuActivity extends AppCompatActivity implements AdapterView.OnIte
     Spinner spinnerBackground;
     Spinner colorOne;
     Spinner colorTwo;
+    Spinner difficultySpinner;
     String background;
     String colorPlayerOne;
     String colorPlayerTwo;
     TextView backgroundColor;
     TextView textColorOne;
     TextView textColorTwo;
+    int difficulty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,8 @@ public class MenuActivity extends AppCompatActivity implements AdapterView.OnIte
         colorPlayerTwo = preferences.getString("colorTwo", getString(R.string.skinYellow));
         final SharedPreferences.Editor editor = preferences.edit();
 
+        difficulty = preferences.getInt("difficulty", 0);
+
         spinnerBackground = findViewById(R.id.spinnerBackground);
         spinnerBackground.setOnItemSelectedListener(this);
         ArrayAdapter<CharSequence> arrayAdapterBackground = ArrayAdapter.createFromResource(getApplicationContext(), R.array.backgrounds_array, android.R.layout.simple_spinner_item);
@@ -61,6 +65,40 @@ public class MenuActivity extends AppCompatActivity implements AdapterView.OnIte
                 spinnerBackground.setSelection(arrayAdapterBackground.getPosition(background));
             }
         }
+
+        difficultySpinner = findViewById(R.id.spinnerDifficulty);
+
+
+        difficultySpinner.setSelection(difficulty);
+
+        difficultySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(adapterView.getItemAtPosition(i).toString().equals(getString(R.string.simple)))
+                {
+                    editor.putInt("difficulty", 0);
+                    editor.apply();
+                }
+
+                else if(adapterView.getItemAtPosition(i).toString().equals(getString(R.string.difficult)))
+                {
+                    editor.putInt("difficulty", 1);
+                    editor.apply();
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        ArrayAdapter<CharSequence> arrayAdapterDifficulty = ArrayAdapter.createFromResource(getApplicationContext(), R.array.difficulty_array, android.R.layout.simple_spinner_item);
+        arrayAdapterDifficulty.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        difficultySpinner.setAdapter(arrayAdapterDifficulty);
+
+        difficultySpinner.setSelection(difficulty);
 
         colorOne = findViewById(R.id.spinnerColorOne);
         colorOne.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -136,7 +174,6 @@ public class MenuActivity extends AppCompatActivity implements AdapterView.OnIte
                     editor.apply();
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
-                    finish();
                 }
             }
         });
@@ -161,7 +198,6 @@ public class MenuActivity extends AppCompatActivity implements AdapterView.OnIte
                     editor.apply();
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
-                    finish();
                 }
             }
         });

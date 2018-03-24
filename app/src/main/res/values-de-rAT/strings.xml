@@ -22,4 +22,7 @@
     <string name="skinPurple">Violett</string>
     <string name="skinBlack">Schwarz</string>
     <string name="differentColors">Wählen Sie bitte unterschiedliche Farben für die Spieler!</string>
+    <string name="simple">Leicht</string>
+    <string name="difficult">Schwer</string>
+    <string name="difficulty">Schwierigkeit</string>
 </resources>

@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -19,8 +20,10 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
 
     int playerOnTurn = 0;
+    int randomNumber;
     List<Integer> ids = new LinkedList<>();
     List<Integer> allIds = new LinkedList<>();
+    List<Integer> preferedIds = new LinkedList<>();
     Random id = new Random();
     ImageView counter;
     SharedPreferences preferences;
@@ -30,8 +33,10 @@ public class MainActivity extends AppCompatActivity {
     int x = 0;
     boolean alreadyBeen = false;
     boolean gameOver = false;
+    boolean idGot = false;
     int mode = -1;
     int idView;
+    int difficulty;
     String background;
     String colorOne;
     String colorTwo;
@@ -53,18 +58,17 @@ public class MainActivity extends AppCompatActivity {
             if (ids.get(i) == id)
             {
                 alreadyBeen = true;
+                idGot = false;
             }
             i++;
         }
     }
-
 
     public void dropIn(View view)
     {
         counter = (ImageView) view;
 
         alreadyBeen(counter.getId());
-
 
         if(gameOver==false) {
             if (alreadyBeen == false) {
@@ -127,7 +131,17 @@ public class MainActivity extends AppCompatActivity {
                     checkWinning();
                 } else if (mode == 1 || mode == 2) {
                     player1();
+                    Log.i("tag", "player1");
+                    for(int i = 0; i < gamestates.length; i++)
+                    {
+                        Log.i("tag", Integer.toString(gamestates[i]));
+                    }
                     player2();
+                    Log.i("tag", "player2");
+                    for(int i = 0; i < gamestates.length; i++)
+                    {
+                        Log.i("tag", Integer.toString(gamestates[i]));
+                    }
                 }
             }
         }
@@ -136,8 +150,10 @@ public class MainActivity extends AppCompatActivity {
     public void newGame()
     {
         mode = preferences.getInt("mode", 0);
-        alreadyBeen=false;
+        difficulty = preferences.getInt("difficulty", 0);
+        alreadyBeen = false;
         gameOver = false;
+        idGot = false;
         x = 0;
         int i = 0;
 
@@ -153,7 +169,6 @@ public class MainActivity extends AppCompatActivity {
         changeBackground();
         if (mode == 2)
         {
-            setCounterObject();
             player2();
         }
     }
@@ -163,7 +178,9 @@ public class MainActivity extends AppCompatActivity {
         if(gameOver==false) {
             playerOnTurn = 0;
             ids.add(counter.getId());
+            Log.e("player1Id", Integer.toString(counter.getId()));
             tag = Integer.parseInt(counter.getTag().toString());
+            Log.e("player1Tag", counter.getTag().toString());
             gamestates[tag] = playerOnTurn;
 
             if(colorOne.equals(getString(R.string.skinRed)))
@@ -198,6 +215,7 @@ public class MainActivity extends AppCompatActivity {
         if(gameOver==false) {
             playerOnTurn = 1;
             setCounterObject();
+            ids.add(counter.getId());
 
             final ImageView enemyView = counter;
             handler.postDelayed(new Runnable() {
@@ -235,8 +253,7 @@ public class MainActivity extends AppCompatActivity {
                     });
                 }
             }, 500);
-            ids.add(counter.getId());
-            tag = Integer.parseInt(counter.getTag().toString());
+            tag = Integer.parseInt(enemyView.getTag().toString());
             gamestates[tag] = playerOnTurn;
             checkWinning();
         }
@@ -244,11 +261,75 @@ public class MainActivity extends AppCompatActivity {
 
     public void setCounterObject()
     {
+        idGot=false;
         alreadyBeen = true;
         while (alreadyBeen == true) {
-            idView = id.nextInt(allIds.size());
-            alreadyBeen(allIds.get(idView));
+            if(difficulty == 0) {
+                idView = id.nextInt(allIds.size());
+                alreadyBeen(allIds.get(idView));
+            }
+
+            else if(difficulty == 1)
+            {
+
+                if (mode == 1 && gamestates[4] == 2){
+                    idGot = true;
+                    idView = 4;
+                }
+
+                for (int[] winningPositions : winningStates) {
+                    if (idGot == false) {
+                        if (gamestates[winningPositions[0]] == 1 && gamestates[winningPositions[1]] == 1 && gamestates[winningPositions[2]] == 2) {
+                            idView = winningPositions[2];
+                            idGot = true;
+                        } else if (gamestates[winningPositions[1]] == 1 && gamestates[winningPositions[2]] == 1 && gamestates[winningPositions[0]] == 2) {
+                            idView = winningPositions[0];
+                            idGot = true;
+                        } else if (gamestates[winningPositions[0]] == 1 && gamestates[winningPositions[2]] == 1 && gamestates[winningPositions[1]] == 2) {
+                            idView = winningPositions[1];
+                            idGot = true;
+                        }
+                    }
+                }
+
+                if(idGot==false) {
+
+                    for (int[] winningPositions : winningStates) {
+                        if (idGot == false) {
+                            if (gamestates[winningPositions[0]] == 0 && gamestates[winningPositions[1]] == 0 && gamestates[winningPositions[2]] == 2) {
+                                idView = winningPositions[2];
+                                idGot = true;
+                            } else if (gamestates[winningPositions[1]] == 0 && gamestates[winningPositions[2]] == 0 && gamestates[winningPositions[0]] == 2) {
+                                idView = winningPositions[0];
+                                idGot = true;
+                            } else if (gamestates[winningPositions[0]] == 0 && gamestates[winningPositions[2]] == 0 && gamestates[winningPositions[1]] == 2) {
+                                idView = winningPositions[1];
+                                idGot = true;
+                            }
+                        }
+                    }
+                }
+
+                if(idGot == false) {
+                    if(gamestates[0] == 2 || gamestates[2] == 2 || gamestates[6] == 2 || gamestates[8] == 2) {
+                        randomNumber = id.nextInt(4);
+                        ImageView imageView = findViewById(preferedIds.get(randomNumber));
+                        idView = Integer.parseInt(imageView.getTag().toString());
+                        idGot = true;
+                    }
+                }
+
+                if(idGot==false) {
+                    idView = id.nextInt(allIds.size());
+                    idGot = true;
+                }
+                Log.e("tag", "idView: " + Integer.toString(idView));
+                Log.e("allIDS", Integer.toString(allIds.get(idView)));
+                Log.e("ids", ids.toString());
+                alreadyBeen(allIds.get(idView));
+            }
         }
+
         Field[] fields = R.id.class.getDeclaredFields();
 
         for (int i = 0; i < fields.length; i++) {
@@ -279,15 +360,19 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        while (x <= 8 && gamestates[x] != 2) {
-            x++;
-        }
+        if(gameOver==false) {
 
-        if (x == 9) {
-            Toast.makeText(getApplicationContext(), getString(R.string.nobody), Toast.LENGTH_LONG).show();
-            handler.postDelayed(runnable, 2000);
+            while (x <= 8 && gamestates[x] != 2) {
+                x++;
+            }
+
+            if (x == 9) {
+                gameOver=true;
+                Toast.makeText(getApplicationContext(), getString(R.string.nobody), Toast.LENGTH_LONG).show();
+                handler.postDelayed(runnable, 2000);
+            }
+            x = 0;
         }
-        x = 0;
     }
 
     public void changeBackground()
@@ -313,23 +398,28 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         preferences = getSharedPreferences("modeFile", MODE_PRIVATE);
+        difficulty = preferences.getInt("difficulty", 0);
         changeBackground();
 
         mode = preferences.getInt("mode", 0);
 
-        allIds.add(R.id.imageView12);
-        allIds.add(R.id.imageView13);
-        allIds.add(R.id.imageView14);
-        allIds.add(R.id.imageView15);
-        allIds.add(R.id.imageView16);
-        allIds.add(R.id.imageView17);
-        allIds.add(R.id.imageView18);
-        allIds.add(R.id.imageView19);
         allIds.add(R.id.imageView20);
+        allIds.add(R.id.imageView19);
+        allIds.add(R.id.imageView18);
+        allIds.add(R.id.imageView17);
+        allIds.add(R.id.imageView16);
+        allIds.add(R.id.imageView15);
+        allIds.add(R.id.imageView14);
+        allIds.add(R.id.imageView13);
+        allIds.add(R.id.imageView12);
+
+        preferedIds.add(R.id.imageView12);
+        preferedIds.add(R.id.imageView14);
+        preferedIds.add(R.id.imageView18);
+        preferedIds.add(R.id.imageView20);
 
         if (mode == 2)
         {
-            setCounterObject();
             player2();
         }
     }

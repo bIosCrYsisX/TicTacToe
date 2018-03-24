@@ -11,10 +11,6 @@
         android:endColor="#e6bb8a"
         android:startColor="#995c12" />
 
-    <corners
-        android:bottomLeftRadius="7dp"
-        android:bottomRightRadius="7dp"
-        android:topLeftRadius="7dp"
-        android:topRightRadius="7dp" />
+
 
 </shape>
