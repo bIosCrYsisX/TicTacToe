@@ -19,23 +19,29 @@ public class MenuActivity extends AppCompatActivity implements AdapterView.OnIte
     Button mbuttonOoO;
     Button mbuttonKIs;
     Switch switchKI;
-    SharedPreferences preferences;
     Spinner spinnerBackground;
     Spinner colorOne;
     Spinner colorTwo;
     Spinner difficultySpinner;
-    String background;
-    String colorPlayerOne;
-    String colorPlayerTwo;
     TextView backgroundColor;
     TextView textColorOne;
     TextView textColorTwo;
-    int difficulty;
+
+    SharedPreferences preferences;
+
+    MenuModel mMenuModel;
+
+//    String background;
+//    String colorPlayerOne;
+//    String colorPlayerTwo;
+//    int difficulty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+
+        mMenuModel = new MenuModel();
 
         mbuttonOoO = findViewById(R.id.buttonOneonOne);
         mbuttonKIs = findViewById(R.id.buttonYouvsKI);
@@ -44,13 +50,10 @@ public class MenuActivity extends AppCompatActivity implements AdapterView.OnIte
         textColorTwo = findViewById(R.id.skin2);
         textColorOne = findViewById(R.id.skin1);
 
-        preferences = getSharedPreferences("modeFile", MODE_PRIVATE);
-        background = preferences.getString("background", getString(R.string.orange));
-        colorPlayerOne = preferences.getString("colorOne", getString(R.string.skinRed));
-        colorPlayerTwo = preferences.getString("colorTwo", getString(R.string.skinYellow));
+        LoadSharedPreferences();
+
         final SharedPreferences.Editor editor = preferences.edit();
 
-        difficulty = preferences.getInt("difficulty", 0);
 
         spinnerBackground = findViewById(R.id.spinnerBackground);
         spinnerBackground.setOnItemSelectedListener(this);
@@ -208,6 +211,13 @@ public class MenuActivity extends AppCompatActivity implements AdapterView.OnIte
         });
     }
 
+    private void LoadSharedPreferences() {
+        preferences = getSharedPreferences("modeFile", MODE_PRIVATE);
+        mMenuModel.setBackground(preferences.getString("background", getString(R.string.orange)));
+        mMenuModel.setColorPlayerOne(preferences.getString("colorOne", getString(R.string.skinRed)));
+        mMenuModel.setColorPlayerTwo(preferences.getString("colorTwo", getString(R.string.skinYellow)));
+        mMenuModel.setDifficultyMode(preferences.getInt("difficulty", 0));
+    }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
