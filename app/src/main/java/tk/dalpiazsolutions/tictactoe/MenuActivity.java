@@ -80,9 +80,14 @@ public class MenuActivity extends AppCompatActivity implements AdapterView.OnIte
                     editor.apply();
                 }
 
-                else if(adapterView.getItemAtPosition(i).toString().equals(getString(R.string.difficult)))
+                else if(adapterView.getItemAtPosition(i).toString().equals(getString(R.string.medium)))
                 {
                     editor.putInt("difficulty", 1);
+                }
+
+                else if(adapterView.getItemAtPosition(i).toString().equals(getString(R.string.difficult)))
+                {
+                    editor.putInt("difficulty", 2);
                     editor.apply();
                 }
 

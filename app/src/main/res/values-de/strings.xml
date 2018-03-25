@@ -25,4 +25,5 @@
     <string name="simple">Leicht</string>
     <string name="difficult">Schwer</string>
     <string name="difficulty">Schwierigkeit</string>
+    <string name="medium">Mittel</string>
 </resources>

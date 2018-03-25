@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     public int[] gamestates = {2, 2, 2, 2, 2, 2, 2, 2, 2};
     int[][] winningStates = {{0, 1, 2} , {3, 4, 5}, {6, 7, 8} , {0, 3, 6} , {1, 4, 7} , {2, 5, 8} , {0, 4, 8} , {2, 4, 6} };
     int tag;
+    int first = 0;
     int x = 0;
     boolean alreadyBeen = false;
     boolean gameOver = false;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     int mode = -1;
     int idView;
     int difficulty;
+    int strategy;
     String background;
     String colorOne;
     String colorTwo;
@@ -131,17 +133,7 @@ public class MainActivity extends AppCompatActivity {
                     checkWinning();
                 } else if (mode == 1 || mode == 2) {
                     player1();
-                    Log.i("tag", "player1");
-                    for(int i = 0; i < gamestates.length; i++)
-                    {
-                        Log.i("tag", Integer.toString(gamestates[i]));
-                    }
                     player2();
-                    Log.i("tag", "player2");
-                    for(int i = 0; i < gamestates.length; i++)
-                    {
-                        Log.i("tag", Integer.toString(gamestates[i]));
-                    }
                 }
             }
         }
@@ -271,61 +263,83 @@ public class MainActivity extends AppCompatActivity {
 
             else if(difficulty == 1)
             {
+                if (mode == 1){
 
-                if (mode == 1 && gamestates[4] == 2){
-                    idGot = true;
-                    idView = 4;
-                }
+                    strategy = id.nextInt(2);
 
-                for (int[] winningPositions : winningStates) {
-                    if (idGot == false) {
-                        if (gamestates[winningPositions[0]] == 1 && gamestates[winningPositions[1]] == 1 && gamestates[winningPositions[2]] == 2) {
-                            idView = winningPositions[2];
-                            idGot = true;
-                        } else if (gamestates[winningPositions[1]] == 1 && gamestates[winningPositions[2]] == 1 && gamestates[winningPositions[0]] == 2) {
-                            idView = winningPositions[0];
-                            idGot = true;
-                        } else if (gamestates[winningPositions[0]] == 1 && gamestates[winningPositions[2]] == 1 && gamestates[winningPositions[1]] == 2) {
-                            idView = winningPositions[1];
-                            idGot = true;
+                    if(checkFirst()==1) {
+                        if (strategy == 0)
+                        {
+                            if (gamestates[0] == 0) {
+                                idView = 8;
+                                idGot = true;
+                            } else if (gamestates[8] == 0) {
+                                idView = 0;
+                                idGot = true;
+                            } else if (gamestates[2] == 0) {
+                                idView = 6;
+                                idGot = true;
+                            } else if (gamestates[6] == 0) {
+                                idView = 2;
+                                idGot = true;
+                            }
                         }
-                    }
-                }
-
-                if(idGot==false) {
-
-                    for (int[] winningPositions : winningStates) {
-                        if (idGot == false) {
-                            if (gamestates[winningPositions[0]] == 0 && gamestates[winningPositions[1]] == 0 && gamestates[winningPositions[2]] == 2) {
-                                idView = winningPositions[2];
-                                idGot = true;
-                            } else if (gamestates[winningPositions[1]] == 0 && gamestates[winningPositions[2]] == 0 && gamestates[winningPositions[0]] == 2) {
-                                idView = winningPositions[0];
-                                idGot = true;
-                            } else if (gamestates[winningPositions[0]] == 0 && gamestates[winningPositions[2]] == 0 && gamestates[winningPositions[1]] == 2) {
-                                idView = winningPositions[1];
+                        else if (strategy == 1)
+                        {
+                            if (gamestates[4] == 2) {
+                                idView = 4;
                                 idGot = true;
                             }
                         }
                     }
                 }
+                hinderLose();
+                tryWin();
+                tryCorners();
+                randomId();
+                alreadyBeen(allIds.get(idView));
+            }
 
-                if(idGot == false) {
-                    if(gamestates[0] == 2 || gamestates[2] == 2 || gamestates[6] == 2 || gamestates[8] == 2) {
-                        randomNumber = id.nextInt(4);
-                        ImageView imageView = findViewById(preferedIds.get(randomNumber));
-                        idView = Integer.parseInt(imageView.getTag().toString());
-                        idGot = true;
+            else if(difficulty == 2)
+            {
+                if (mode == 1){
+                    if(checkFirst()==1) {
+                        strategy = id.nextInt(2);
+                        if (gamestates[0] == 0) {
+                            if(strategy==0) {
+                                idView = 1;
+                            } else {
+                                idView = 3;
+                            }
+                            idGot = true;
+                        } else if (gamestates[2] == 0) {
+                            if(strategy==0) {
+                                idView = 1;
+                            } else {
+                                idView = 5;
+                            }
+                            idGot = true;
+                        } else if (gamestates[6] == 0) {
+                            if(strategy==0) {
+                                idView = 3;
+                            } else {
+                                idView = 7;
+                            }
+                            idGot = true;
+                        } else if (gamestates[8] == 0) {
+                            if(strategy==0) {
+                                idView = 5;
+                            } else {
+                                idView = 7;
+                            }
+                            idGot = true;
+                        }
                     }
                 }
-
-                if(idGot==false) {
-                    idView = id.nextInt(allIds.size());
-                    idGot = true;
-                }
-                Log.e("tag", "idView: " + Integer.toString(idView));
-                Log.e("allIDS", Integer.toString(allIds.get(idView)));
-                Log.e("ids", ids.toString());
+                tryWin();
+                hinderLose();
+                tryCorners();
+                randomId();
                 alreadyBeen(allIds.get(idView));
             }
         }
@@ -341,6 +355,80 @@ public class MainActivity extends AppCompatActivity {
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public int checkFirst()
+    {
+        first = 0;
+
+        for(int i = 0; i < gamestates.length; i++)
+        {
+            if(gamestates[i] != 2)
+            {
+                first++;
+            }
+        }
+
+        return first;
+    }
+
+    public void tryWin()
+    {
+        for (int[] winningPositions : winningStates) {
+            if (idGot == false) {
+                if (gamestates[winningPositions[0]] == 1 && gamestates[winningPositions[1]] == 1 && gamestates[winningPositions[2]] == 2) {
+                    idView = winningPositions[2];
+                    idGot = true;
+                } else if (gamestates[winningPositions[1]] == 1 && gamestates[winningPositions[2]] == 1 && gamestates[winningPositions[0]] == 2) {
+                    idView = winningPositions[0];
+                    idGot = true;
+                } else if (gamestates[winningPositions[0]] == 1 && gamestates[winningPositions[2]] == 1 && gamestates[winningPositions[1]] == 2) {
+                    idView = winningPositions[1];
+                    idGot = true;
+                }
+            }
+        }
+    }
+
+    public void hinderLose()
+    {
+        if(idGot==false) {
+
+            for (int[] winningPositions : winningStates) {
+                if (idGot == false) {
+                    if (gamestates[winningPositions[0]] == 0 && gamestates[winningPositions[1]] == 0 && gamestates[winningPositions[2]] == 2) {
+                        idView = winningPositions[2];
+                        idGot = true;
+                    } else if (gamestates[winningPositions[1]] == 0 && gamestates[winningPositions[2]] == 0 && gamestates[winningPositions[0]] == 2) {
+                        idView = winningPositions[0];
+                        idGot = true;
+                    } else if (gamestates[winningPositions[0]] == 0 && gamestates[winningPositions[2]] == 0 && gamestates[winningPositions[1]] == 2) {
+                        idView = winningPositions[1];
+                        idGot = true;
+                    }
+                }
+            }
+        }
+    }
+
+    public void tryCorners()
+    {
+        if(idGot == false) {
+            if(gamestates[0] == 2 || gamestates[2] == 2 || gamestates[6] == 2 || gamestates[8] == 2) {
+                randomNumber = id.nextInt(4);
+                ImageView imageView = findViewById(preferedIds.get(randomNumber));
+                idView = Integer.parseInt(imageView.getTag().toString());
+                idGot = true;
+            }
+        }
+    }
+
+    public void randomId()
+    {
+        if(idGot==false) {
+            idView = id.nextInt(allIds.size());
+            idGot = true;
         }
     }
 

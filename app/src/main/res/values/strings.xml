@@ -23,5 +23,6 @@
     <string name="differentColors">Please select different colors for the players!</string>
     <string name="simple">Easy</string>
     <string name="difficult">Hard</string>
+    <string name="medium">Medium</string>
     <string name="difficulty">Difficulty</string>
 </resources>
