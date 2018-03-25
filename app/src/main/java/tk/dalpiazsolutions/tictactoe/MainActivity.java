@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     int[][] winningStates = {{0, 1, 2} , {3, 4, 5}, {6, 7, 8} , {0, 3, 6} , {1, 4, 7} , {2, 5, 8} , {0, 4, 8} , {2, 4, 6} };
     int[][] cornerStates = {{0, 1, 2}, {0, 3, 6}, {2, 5, 8}, {6, 7, 8}};
     int tag;
-    int first = 0;
+    int count = 0;
     int x = 0;
     int scorePlayerOne = 0;
     int scorePlayerTwo = 0;
@@ -278,7 +278,7 @@ public class MainActivity extends AppCompatActivity {
 
                     strategy = id.nextInt(2);
 
-                    if(checkFirst()==1) {
+                    if(getPlayCount()==1) {
                         if (strategy == 0)
                         {
                             if (gamestates[0] == 0) {
@@ -314,7 +314,7 @@ public class MainActivity extends AppCompatActivity {
             else if(difficulty == 2)
             {
                 if (mode == 1){
-                    if(checkFirst()==1) {
+                    if(getPlayCount()==1) {
                         strategy = id.nextInt(2);
                         if (gamestates[0] == 0) {
                             if(strategy==0) {
@@ -345,7 +345,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                             idGot = true;
                         }
-                    } else if(checkFirst()==3) {
+                    } else if(getPlayCount()==3) {
                         for(int[] states : cornerStates) {
                             if (gamestates[states[0]] == 0 && gamestates[states[2]] == 0 && gamestates[states[1]] == 1) {
                                 if(gamestates[4] == 2) {
@@ -378,19 +378,19 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public int checkFirst()
+    public int getPlayCount()
     {
-        first = 0;
+        count = 0;
 
         for(int i = 0; i < gamestates.length; i++)
         {
             if(gamestates[i] != 2)
             {
-                first++;
+                count++;
             }
         }
 
-        return first;
+        return count;
     }
 
     public void tryWin()
