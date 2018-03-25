@@ -480,8 +480,8 @@ public class MainActivity extends AppCompatActivity {
     {
         ConstraintLayout constraintLayout = findViewById(R.id.game_layout);
         background = preferences.getString("background", getString(R.string.orange));
-        colorOne = preferences.getString("colorOne", getString(R.string.skinRed));
-        colorTwo = preferences.getString("colorTwo", getString(R.string.skinYellow));
+        colorOne = preferences.getString("spinnerColorOne", getString(R.string.skinRed));
+        colorTwo = preferences.getString("spinnerColorTwo", getString(R.string.skinYellow));
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             if (background.equals(getString(R.string.orange))) {
@@ -555,7 +555,7 @@ public class MainActivity extends AppCompatActivity {
         changeBackground();
         setTextScores();
 
-        mode = preferences.getInt("mode", 0);
+        mode = getIntent().getIntExtra("mode", 0);
 
         allIds.add(R.id.imageView20);
         allIds.add(R.id.imageView19);
