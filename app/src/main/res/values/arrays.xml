@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="backgrounds_array">
+        <item>@string/orange</item>
+        <item>@string/blue</item>
+        <item>@string/green</item>
+        <item>@string/white</item>
+    </string-array>
+
+    <string-array name="colorOne_array">
+        <item>@string/skinRed</item>
+        <item>@string/skinYellow</item>
+        <item>@string/skinPurple</item>
+        <item>@string/skinBlack</item>
+    </string-array>
+
+    <string-array name="colorTwo_array">
+        <item>@string/skinRed</item>
+        <item>@string/skinYellow</item>
+        <item>@string/skinPurple</item>
+        <item>@string/skinBlack</item>
+    </string-array>
+
+    <string-array name="difficulty_array">
+        <item>@string/simple</item>
+        <item>@string/medium</item>
+        <item>@string/difficult</item>
+    </string-array>
+</resources>

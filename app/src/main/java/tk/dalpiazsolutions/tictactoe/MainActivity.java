@@ -1,6 +1,7 @@
 package tk.dalpiazsolutions.tictactoe;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,11 +11,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.lang.reflect.Field;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,12 +29,18 @@ public class MainActivity extends AppCompatActivity {
     List<Integer> preferedIds = new LinkedList<>();
     Random id = new Random();
     ImageView counter;
+    TextView textScoreOne;
+    TextView textScoreTwo;
+    TextView textEven;
     SharedPreferences preferences;
     public int[] gamestates = {2, 2, 2, 2, 2, 2, 2, 2, 2};
     int[][] winningStates = {{0, 1, 2} , {3, 4, 5}, {6, 7, 8} , {0, 3, 6} , {1, 4, 7} , {2, 5, 8} , {0, 4, 8} , {2, 4, 6} };
     int tag;
     int first = 0;
     int x = 0;
+    int scorePlayerOne = 0;
+    int scorePlayerTwo = 0;
+    int evenGame = 0;
     boolean alreadyBeen = false;
     boolean gameOver = false;
     boolean idGot = false;
@@ -157,8 +166,9 @@ public class MainActivity extends AppCompatActivity {
         ids = new LinkedList<>();
         playerOnTurn = 0;
         setContentView(R.layout.activity_main);
-
         changeBackground();
+        setTextScores();
+
         if (mode == 2)
         {
             player2();
@@ -440,8 +450,10 @@ public class MainActivity extends AppCompatActivity {
                     gamestates[winningPositions[0]] != 2) {
                 if (gamestates[winningPositions[0]] == 0) {
                     Toast.makeText(getApplicationContext(), colorOne + getString(R.string.wins) , Toast.LENGTH_LONG).show();
+                    scorePlayerOne++;
                 } else if (gamestates[winningPositions[0]] == 1) {
                     Toast.makeText(getApplicationContext(), colorTwo + getString(R.string.wins), Toast.LENGTH_LONG).show();
+                    scorePlayerTwo++;
                 }
                 gameOver = true;
                 handler.postDelayed(runnable, 2000);
@@ -455,6 +467,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             if (x == 9) {
+                evenGame++;
                 gameOver=true;
                 Toast.makeText(getApplicationContext(), getString(R.string.nobody), Toast.LENGTH_LONG).show();
                 handler.postDelayed(runnable, 2000);
@@ -481,6 +494,58 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void setTextScores()
+    {
+        textScoreOne = findViewById(R.id.textScoreOne);
+        textScoreTwo = findViewById(R.id.textScoreTwo);
+        textEven = findViewById(R.id.textEven);
+
+        if(colorOne.equals(getString(R.string.skinRed)))
+        {
+            textScoreOne.setTextColor(Color.RED);
+        }
+
+        else if(colorOne.equals(getString(R.string.skinYellow)))
+        {
+            textScoreOne.setTextColor(Color.YELLOW);
+        }
+
+        else if(colorOne.equals(getString(R.string.skinPurple)))
+        {
+            textScoreOne.setTextColor(Color.rgb(255, 19, 247));
+        }
+
+        else if(colorOne.equals(getString(R.string.skinBlack)))
+        {
+            textScoreOne.setTextColor(Color.BLACK);
+        }
+
+
+        if(colorTwo.equals(getString(R.string.skinRed)))
+        {
+            textScoreTwo.setTextColor(Color.RED);
+        }
+
+        else if(colorTwo.equals(getString(R.string.skinYellow)))
+        {
+            textScoreTwo.setTextColor(Color.YELLOW);
+        }
+
+        else if(colorTwo.equals(getString(R.string.skinPurple)))
+        {
+            textScoreTwo.setTextColor(Color.rgb(255, 19, 247));
+        }
+
+        else if(colorTwo.equals(getString(R.string.skinBlack)))
+        {
+            textScoreTwo.setTextColor(Color.BLACK);
+        }
+
+        textScoreOne.setText(String.format(Locale.getDefault(), getString(R.string.scoreOne), scorePlayerOne));
+        textScoreTwo.setText(String.format(Locale.getDefault(), getString(R.string.scoreTwo), scorePlayerTwo));
+        textEven.setText(String.format(Locale.getDefault(), getString(R.string.scoreEven), evenGame));
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -488,6 +553,7 @@ public class MainActivity extends AppCompatActivity {
         preferences = getSharedPreferences("modeFile", MODE_PRIVATE);
         difficulty = preferences.getInt("difficulty", 0);
         changeBackground();
+        setTextScores();
 
         mode = preferences.getInt("mode", 0);
 

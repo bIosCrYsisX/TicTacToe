@@ -168,7 +168,7 @@ public class MenuActivity extends AppCompatActivity implements AdapterView.OnIte
             public void onClick(View view) {
                 colorPlayerOne = preferences.getString("colorOne", getString(R.string.skinRed));
                 colorPlayerTwo = preferences.getString("colorTwo", getString(R.string.skinYellow));
-                if(colorPlayerTwo==colorPlayerOne)
+                if(colorPlayerTwo.equals(colorPlayerOne))
                 {
                     Toast.makeText(getApplicationContext(), R.string.differentColors, Toast.LENGTH_SHORT).show();
                 }
@@ -188,7 +188,7 @@ public class MenuActivity extends AppCompatActivity implements AdapterView.OnIte
             public void onClick(View view) {
                 colorPlayerOne = preferences.getString("colorOne", getString(R.string.skinRed));
                 colorPlayerTwo = preferences.getString("colorTwo", getString(R.string.skinYellow));
-                if(colorPlayerTwo==colorPlayerOne)
+                if(colorPlayerTwo.equals(colorPlayerOne))
                 {
                     Toast.makeText(getApplicationContext(), R.string.differentColors, Toast.LENGTH_SHORT).show();
                 }
@@ -227,6 +227,11 @@ public class MenuActivity extends AppCompatActivity implements AdapterView.OnIte
             backgroundColor.setTextColor(Color.BLUE);
         }
 
+        else if(background.equals(getString(R.string.white)))
+        {
+            backgroundColor.setTextColor(Color.BLACK);
+        }
+
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("background", background);
         editor.apply();
@@ -239,22 +244,22 @@ public class MenuActivity extends AppCompatActivity implements AdapterView.OnIte
 
     public void checkColorAndSetText(TextView color, String colorText)
     {
-        if(colorText == getString(R.string.skinRed))
+        if(colorText.equals(getString(R.string.skinRed)))
         {
             color.setTextColor(Color.RED);
         }
 
-        else if(colorText == getString(R.string.skinYellow))
+        else if(colorText.equals(getString(R.string.skinYellow)))
         {
             color.setTextColor(Color.YELLOW);
         }
 
-        else if(colorText == getString(R.string.skinPurple))
+        else if(colorText.equals(getString(R.string.skinPurple)))
         {
             color.setTextColor(Color.rgb(255, 19, 247));
         }
 
-        else if(colorText == getString(R.string.skinBlack))
+        else if(colorText.equals(getString(R.string.skinBlack)))
         {
             color.setTextColor(Color.BLACK);
         }
