@@ -13,6 +13,7 @@
     <string name="orange">Orange</string>
     <string name="blue">Blue</string>
     <string name="green">Green</string>
+    <string name="white">White</string>
     <string name="backgroundColor">Background (color)</string>
     <string name="player1">Player 1 (color)</string>
     <string name="player2">Player 2 (color)</string>
@@ -25,4 +26,7 @@
     <string name="difficult">Hard</string>
     <string name="medium">Medium</string>
     <string name="difficulty">Difficulty</string>
+    <string name="scoreOne">Player 1: %1$d</string>
+    <string name="scoreTwo">Player 2: %1$d</string>
+    <string name="scoreEven">Even: %1$d</string>
 </resources>

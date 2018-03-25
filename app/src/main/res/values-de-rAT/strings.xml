@@ -14,6 +14,7 @@
     <string name="orange">Orange</string>
     <string name="blue">Blau</string>
     <string name="green">Grün</string>
+    <string name="white">Weiß</string>
     <string name="backgroundColor">Hintergrundfarbe</string>
     <string name="player1">Spieler 1 (Farbe)</string>
     <string name="player2">Spieler 2 (Farbe)</string>
@@ -26,4 +27,7 @@
     <string name="difficult">Schwer</string>
     <string name="difficulty">Schwierigkeit</string>
     <string name="medium">Mittel</string>
+    <string name="scoreOne">Spieler 1: %1$d</string>
+    <string name="scoreTwo">Spieler 2: %1$d</string>
+    <string name="scoreEven">Unentschieden: %1$d</string>
 </resources>
